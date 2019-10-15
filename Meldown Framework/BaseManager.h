@@ -1,18 +1,22 @@
 #pragma once
+#include "Engine.h"
+
 namespace Meltdown
 {
-	class Core; //Forward decl.
-
+	namespace Core
+	{
+		class Engine; //Forward decl.
+	}
 	/// <summary>
-	/// BaseManager is the Base Class all managers inherits from, it grants access to the Meltdown::Core class.
+	/// BaseManager is the Base Class for all Managers, it grants access to the Meltdown::Core::Engine class.
 	/// </summary>
 	class BaseManager
 	{
 	public:
-		explicit BaseManager(Core& _core)
-			: core(_core) {}
+		explicit BaseManager(Core::Engine& _engine)
+			: engine(_engine) {}
 
 	protected:
-		Core const& core;
+		Core::Engine const& engine;
 	};
 }

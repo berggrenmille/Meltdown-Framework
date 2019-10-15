@@ -3,10 +3,13 @@
 
 namespace Meltdown
 {
-	class EventManger : BaseManager
+	/// <summary>
+	/// EventManager manage all event related activity in the framework. It allows for communication between different parts of the architecture.
+	/// </summary>
+	class EventManager : BaseManager
 	{
 	public:
-		explicit EventManger(Core& _core)
-			: BaseManager(_core) {}
+		explicit EventManager(Core::Engine& _engine)
+			: BaseManager(_engine) {}
 	};
 }

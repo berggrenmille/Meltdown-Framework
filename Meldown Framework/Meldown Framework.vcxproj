@@ -157,7 +157,7 @@
   <ItemGroup>
     <ClInclude Include="BaseManager.h" />
     <ClInclude Include="EventManager.h" />
-    <ClInclude Include="Meltdown.h" />
+    <ClInclude Include="Engine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
