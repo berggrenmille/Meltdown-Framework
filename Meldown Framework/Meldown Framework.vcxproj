@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{66FD60B1-4A08-40D2-9914-FE7627D8BEED}</ProjectGuid>
+    <ProjectGuid>{203D1DAB-87B1-41C7-961D-C524AADF8744}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>MeltdownFramework</RootNamespace>
+    <RootNamespace>MeldownFramework</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -151,7 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Meltdown Framework.cpp" />
+    <ClCompile Include="Meldown Framework.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

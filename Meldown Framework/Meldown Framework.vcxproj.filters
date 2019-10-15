@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Meltdown Framework.cpp">
+    <ClCompile Include="Meldown Framework.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
