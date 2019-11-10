@@ -152,12 +152,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChunkListAllocator.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="LinearAllocator.cpp" />
     <ClCompile Include="Meltdown Framework.cpp" />
+    <ClCompile Include="PoolAllocator.cpp" />
+    <ClCompile Include="ProxyAllocator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MemoryHelper.hpp" />
+    <ClInclude Include="BaseAllocator.h" />
     <ClInclude Include="BaseManager.h" />
+    <ClInclude Include="ChunkListAllocator.h" />
+    <ClInclude Include="CustomVector.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="IdFactory.hpp" />
+    <ClInclude Include="LinearAllocator.h" />
+    <ClInclude Include="PoolAllocator.h" />
+    <ClInclude Include="ProxyAllocator.h" />
+    <ClInclude Include="Settings.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
