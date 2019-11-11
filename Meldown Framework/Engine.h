@@ -1,12 +1,11 @@
 #pragma once
 #include "LinearAllocator.h"
 #include "ProxyAllocator.h"
+#include "ChunkListAllocator.h"
 
 //Forward declarations
 class EventManager;
-class SystemManager;
-class EntityManager;
-class ComponentManager;
+class ECSManager;
 class JobManager;
 
 namespace Meltdown
@@ -21,12 +20,15 @@ namespace Meltdown
 		public:
 			Engine();
 			~Engine();
+
+			Memory::ProxyAllocator& GetGlobalAllocator() const;
+			Memory::LinearAllocator& GetDynamicAllocator() const;
 		private:
 			EventManager* eventManager = nullptr;
 
 			Memory::LinearAllocator* dynamicAllocator = nullptr; //Memory refreshed every frame
-			Memory::LinearAllocator* globalAllocator  = nullptr; //Memory is static during the whole program
-			Memory::ProxyAllocator* ProxyAllocator   = nullptr; //For debugging purposes 
+			Memory::ChunkListAllocator* globalAllocator  = nullptr; //Memory is static during the whole program
+			Memory::ProxyAllocator* proxyAllocator   = nullptr; //For debugging purposes 
 		};
 	}
 }

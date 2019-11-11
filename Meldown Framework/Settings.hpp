@@ -7,11 +7,11 @@ namespace Meltdown
 	
 	namespace Settings
 	{
-		static size_t GLOBAL_MEMORY;
-		static size_t DYNAMIC_MEMORY;
+		constexpr size_t GLOBAL_MEMORY = GB(1);
+		constexpr  size_t DYNAMIC_MEMORY = GB(0.5);
 
-		static size_t MAX_COMPONENT_TYPES = sizeof(size_t);
-		static size_t MAX_ENTITIES = 1 << 10;
-		static size_t MAX_SYSTEMS = 64;
+		constexpr size_t MAX_COMPONENT_TYPES = sizeof(size_t) * 8;
+		constexpr size_t MAX_ENTITIES = 1 << 10;
+		constexpr size_t MAX_SYSTEMS = 64;
 	}
 }

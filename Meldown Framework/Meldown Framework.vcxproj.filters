@@ -28,6 +28,15 @@
     <Filter Include="Header Files\Settings">
       <UniqueIdentifier>{f86cacf4-2338-4535-bf9d-081a6ad4dd65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Threading">
+      <UniqueIdentifier>{9a28b33b-a17e-4509-a12f-2fed4781745f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ECS">
+      <UniqueIdentifier>{45cf477f-f7fd-4ac4-91be-1657e52929ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ECS">
+      <UniqueIdentifier>{6972c132-455d-4eee-b850-8496be202ab5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -69,6 +78,18 @@
     <ClInclude Include="ProxyAllocator.h">
       <Filter>Header Files\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>Header Files\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ECSManager.h">
+      <Filter>Header Files\ECS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Meltdown Framework.cpp">
@@ -91,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="ProxyAllocator.cpp">
       <Filter>Source Files\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="ECSManager.cpp">
+      <Filter>Source Files\ECS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -153,7 +153,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ChunkListAllocator.cpp" />
+    <ClCompile Include="ECSManager.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="LinearAllocator.cpp" />
     <ClCompile Include="Meltdown Framework.cpp" />
@@ -161,6 +163,9 @@
     <ClCompile Include="ProxyAllocator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="ECSManager.h" />
     <ClInclude Include="MemoryHelper.hpp" />
     <ClInclude Include="BaseAllocator.h" />
     <ClInclude Include="BaseManager.h" />
@@ -174,6 +179,7 @@
     <ClInclude Include="PoolAllocator.h" />
     <ClInclude Include="ProxyAllocator.h" />
     <ClInclude Include="Settings.hpp" />
+    <ClInclude Include="System.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
