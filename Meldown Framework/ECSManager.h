@@ -49,8 +49,8 @@ namespace Meltdown
 			std::vector<EntityHandle*>  entityVector;
 			std::vector<void*>          componentVector;
 
-			Memory::PoolAllocator*      entityAllocator;	   //Entites are stored in a pool
-			Memory::ChunkListAllocator* componentAllocator; //Components are stored in a mega array
+			Memory::PoolAllocator*      entityAllocator;	   //Entities are stored in a pool
+			Memory::ChunkListAllocator* componentAllocator;    //Components are stored in a mega array
 
 			unsigned aliveEntities = 0;
 
