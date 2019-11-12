@@ -5,17 +5,17 @@ Meltdown::ECS::EntityHandle& Meltdown::ECS::EntityHandle::operator=(EntityHandle
 	EntityHandle temp;
 	temp.dataIndex = this->dataIndex;
 	temp.componentMask = this->componentMask;
-	temp.id = this->id;
+	temp.index = this->index;
 	temp.isAlive = this->isAlive;
 
 	this->dataIndex = other.dataIndex;
 	this->componentMask = other.componentMask;
-	this->id = other.id;
+	this->index = other.index;
 	this->isAlive = other.isAlive;
 
 	other.dataIndex = temp.dataIndex;
 	other.componentMask = temp.componentMask;
-	other.id = temp.id;
+	other.index = temp.index;
 	other.isAlive = temp.isAlive;
 
 	return *this;

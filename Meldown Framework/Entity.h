@@ -7,7 +7,7 @@ namespace Meltdown
 	{
 		struct EntityHandle
 		{
-			size_t id = -1;
+			size_t index = -1;
 			size_t dataIndex = -1;
 			int8_t isAlive = 0;
 			int8_t pendingDeath = 0;

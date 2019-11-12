@@ -16,11 +16,25 @@ namespace Meltdown
 			explicit ECSManager(Core::Engine* engine);
 			~ECSManager();
 
+			/// <summary>
+			/// AddEntity spawns a new entity to the world.
+			/// The new entity will have 0 components attached.
+			/// </summary>
 			void AddEntity();
-			void RemoveEntity();
-
+			/// <summary>
+			/// RemoveEntity disables an entity from the world.
+			/// The entity will still exist in memory, ready to be reborn.
+			/// </summary>
+			/// <param name="entity"></param>
+			void RemoveEntity(EntityHandle& entity);
+			/// <summary>
+			/// AddComponent binds a component to an entity.
+			/// </summary>
 			template <typename C, typename ... Args>
 			void AddComponent(EntityHandle& entity);
+			/// <summary>
+			/// RemoveComponent unbinds a component from an entity.
+			/// </summary>
 			template <typename C>
 			void RemoveComponent(EntityHandle& entity);
 
@@ -37,6 +51,8 @@ namespace Meltdown
 
 			Memory::PoolAllocator*      entityAllocator;	   //Entites are stored in a pool
 			Memory::ChunkListAllocator* componentAllocator; //Components are stored in a mega array
+
+			unsigned aliveEntities = 0;
 
 			Core::Engine* engine;
 		};
