@@ -4,16 +4,29 @@ namespace Meltdown
 {
 	namespace ECS
 	{
-		class BaseComponent
+		template<typename T>
+		class ComponentHandle
 		{
-		protected:
-			size_t typeId = -1;
+		public:
+			explicit ComponentHandle(T* ptr):componentPtr(ptr){}
+			T* GetRaw() const;
+			T* GetNextRaw() const;
+		private:
+			friend class ECSManager;
+			T* componentPtr = nullptr;
+			T* next = nullptr;
 		};
 
-		template<typename T>
-		struct ComponentHandle
+		template <typename T>
+		T* ComponentHandle<T>::GetRaw() const
 		{
-			BaseComponent* componentPtr = nullptr;
-		};
+			return componentPtr;
+		}
+
+		template <typename T>
+		T* ComponentHandle<T>::GetNextRaw() const
+		{
+			return next;
+		}
 	}
 }

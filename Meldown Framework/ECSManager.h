@@ -5,6 +5,7 @@
 #include "PoolAllocator.h"
 #include "ChunkListAllocator.h"
 #include "Engine.h"
+#include "IdFactory.hpp"
 
 namespace Meltdown
 {
@@ -31,7 +32,7 @@ namespace Meltdown
 			/// AddComponent binds a component to an entity.
 			/// </summary>
 			template <typename C, typename ... Args>
-			void AddComponent(EntityHandle& entity);
+			void AddComponent(EntityHandle& entity, Args&& ... args);
 			/// <summary>
 			/// RemoveComponent unbinds a component from an entity.
 			/// </summary>
@@ -56,5 +57,21 @@ namespace Meltdown
 
 			Core::Engine* engine;
 		};
+
+		template <typename C, typename ... Args>
+		void ECSManager::AddComponent(EntityHandle& entity, Args&&... args)
+		{
+			C* componentPtr = Memory::AllocateNew<C>(componentAllocator,args...);
+			auto componentIndex = Util::TypeIdFactory<ComponentHandle<void>>::GetId<C>() + entity.dataIndex * Settings::MAX_COMPONENT_TYPES;
+			void* componentHandlePtr = Memory::AllocateNew<ComponentHandle<C>>(componentAllocator, componentPtr);
+			if(componentVector[componentIndex] != nullptr)
+			{
+				//Chain component
+				ComponentHandle<C>* next = reinterpret_cast<ComponentHandle<C>*>(componentVector[componentIndex]);
+				while (next != nullptr)
+					next = next->next;
+				next->next = componentHandlePtr;
+			}
+		}
 	}
 }
