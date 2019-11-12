@@ -52,7 +52,7 @@ namespace Meltdown
 			static std::size_t GetFlag()
 			{
 				static const std::size_t id = TypeIdFactory<Domain>::template GetId<T>();
-				static const std::size_t flag = static_cast<size_t>(exp2l(static_cast<long double>(id))); //Return id in powers of 2 so that it can represent a flag
+				static const std::size_t flag = 1<<id; //Return id in powers of 2 so that it can represent a flag
 				return flag;
 			};
 		private:
