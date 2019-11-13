@@ -29,13 +29,15 @@ int main()
 		//std::cout << ecs.GetComponent<Position>(ent)->x << " : " << ecs.GetComponent<Position>(ent)->y << "\n";
 		//std::cout << ecs.HasComponents<Position, Rotation>(ent) << "\n";
 	}
+	system("pause");
 	auto start = std::chrono::high_resolution_clock::now();
 	auto query1 = *ecs.GetComponentTuples<Rotation, Position>();
 	auto query2 = *ecs.GetComponentTuples<Position>();
 	auto query3 = *ecs.GetComponentTuples<Rotation>();
 	auto end = std::chrono::high_resolution_clock::now();
 	auto diff = end - start;
-	std::cout << std::chrono::duration <double, std::milli>(diff).count() << " ms" << std::endl;
+	std::cout << std::chrono::duration <double, std::micro>(diff).count() << " micro" << std::endl;
+	system("pause");
 
 
 	delete engine;

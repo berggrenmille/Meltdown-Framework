@@ -44,13 +44,21 @@ namespace Meltdown
 			template <typename C>
 			void RemoveComponent(ComponentHandle<C>& component);
 			/// <summary>
-			/// GetComponent return a pointer to the correct component data of an entity.
+			/// GetComponent return a pointer to a component bound to an entity.
 			/// Returns nullptr if there does not exist a component.
 			/// </summary>
 			template <typename C>
 			C* GetComponent(EntityHandle& entity);
+			/// <summary>
+			/// HasComponents checks if the entity has a set of components attached.
+			/// Only returns true if all given components are bound.
+			/// </summary>
 			template <typename... Cs>
 			bool HasComponents(EntityHandle& entity) const;
+			/// <summary>
+			/// GetComponentTuples return a vector with tuples of components. Each tuple represents a unique 
+			/// TODO: Implement an entity reference with every tuple
+			/// </summary>
 			template <typename... Cs>
 			std::unique_ptr<std::vector<std::tuple<Cs& ...>>> GetComponentTuples();
 
