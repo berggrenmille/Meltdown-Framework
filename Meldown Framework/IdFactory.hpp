@@ -9,10 +9,10 @@ namespace Meltdown
 		class IdFactory
 		{
 		public:
-			static std::size_t GetId()
+			static size_t GetId()
 			{
-				std::size_t id;
-				if (freeIds.size() == 0)
+				size_t id;
+				if (freeIds.empty())
 					id = counter++;
 				else 			//Get free id
 				{
@@ -21,13 +21,13 @@ namespace Meltdown
 				}
 				return id;
 			}
-			static void FreeId(std::size_t id)
+			static void FreeId(size_t id)
 			{
 				freeIds.push_back(id);
 			}
 		private:
-			static std::list<std::size_t> freeIds;
-			static std::size_t counter;
+			static std::list<size_t> freeIds;
+			static size_t counter;
 		};
 
 		/// <summary>
@@ -40,31 +40,31 @@ namespace Meltdown
 		{
 		public:
 			template<typename T>
-			static std::size_t GetId()
+			static size_t GetId()
 			{
-				static const std::size_t id = counter++;
+				static const size_t id = counter++;
 				return id;
 			};
 			/// <summary>
 			/// GetFlag returns a unique flag within the domain, i.e. an unique id counted in powers of 2.
 			/// </summary>
 			template<typename T>
-			static std::size_t GetFlag()
+			static size_t GetFlag()
 			{
-				static const std::size_t id = TypeIdFactory<Domain>::template GetId<T>();
-				static const std::size_t flag = 1<<id; //Return id in powers of 2 so that it can represent a flag
+				static const size_t id = TypeIdFactory<Domain>::template GetId<T>();
+				static const size_t flag = 1ULL<<id; //Return id in powers of 2 so that it can represent a flag
 				return flag;
 			};
 		private:
-			static std::size_t counter;
+			static size_t counter;
 		};
 
 		//Initialization of variables
 		template<typename T>
-		std::list<std::size_t> IdFactory<T>::freeIds = {};
+		std::list<size_t> IdFactory<T>::freeIds = {};
 		template<typename T>
-		std::size_t TypeIdFactory<T>::counter = 0;
+		size_t TypeIdFactory<T>::counter = 0;
 		template<typename T>
-		std::size_t IdFactory<T>::counter = 0;
+		size_t IdFactory<T>::counter = 0;
 	}
 }

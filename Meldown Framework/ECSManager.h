@@ -4,11 +4,14 @@
 #include "Component.h"
 #include "PoolAllocator.h"
 #include "ChunkListAllocator.h"
-#include "Engine.h"
 #include "IdFactory.hpp"
-
+#include <memory>
 namespace Meltdown
 {
+	namespace Core
+	{
+		class Engine;
+	}
 	namespace ECS
 	{
 		class ECSManager
@@ -21,7 +24,7 @@ namespace Meltdown
 			/// AddEntity spawns a new entity to the world.
 			/// The new entity will have 0 components attached.
 			/// </summary>
-			void AddEntity();
+			EntityHandle& AddEntity();
 			/// <summary>
 			/// RemoveEntity disables an entity from the world.
 			/// The entity will still exist in memory, ready to be reborn.
@@ -40,6 +43,17 @@ namespace Meltdown
 			void RemoveComponent(EntityHandle& entity);
 			template <typename C>
 			void RemoveComponent(ComponentHandle<C>& component);
+			/// <summary>
+			/// GetComponent return a pointer to the correct component data of an entity.
+			/// Returns nullptr if there does not exist a component.
+			/// </summary>
+			template <typename C>
+			C* GetComponent(EntityHandle& entity);
+			template <typename... Cs>
+			bool HasComponents(EntityHandle& entity) const;
+			template <typename... Cs>
+			std::unique_ptr<std::vector<std::tuple<Cs& ...>>> GetComponentTuples();
+
 			
 			template <typename S, typename ... Args>
 			void AddSystem(Args&& ... args);
@@ -63,32 +77,84 @@ namespace Meltdown
 		template <typename C, typename ... Args>
 		void ECSManager::AddComponent(EntityHandle& entity, Args&&... args)
 		{
-			C* componentPtr = Memory::AllocateNew<C>(componentAllocator,args...);
+			C* componentPtr = Memory::AllocateNew<C>(*componentAllocator,args...);
 			auto componentIndex = Util::TypeIdFactory<ComponentHandle<void>>::GetId<C>() + entity.dataIndex * Settings::MAX_COMPONENT_TYPES;
-			void* componentHandlePtr = Memory::AllocateNew<ComponentHandle<C>>(componentAllocator, componentPtr);
-			if(componentVector[componentIndex] != nullptr)
+			ComponentHandle<C>* componentHandlePtr = Memory::AllocateNew<ComponentHandle<C>>(*componentAllocator, componentPtr);
+			if (componentVector[componentIndex] != nullptr)
 			{
 				//Chain component
 				ComponentHandle<C>* next = reinterpret_cast<ComponentHandle<C>*>(componentVector[componentIndex]);
-				while (next != nullptr)
+				while (next->next != nullptr)
 					next = next->next;
 				next->next = componentHandlePtr;
 			}
+			else
+				componentVector[componentIndex] = static_cast<void*>(componentHandlePtr);
+			entity.componentMask |= Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<C>();
 		}
 
 		template <typename C>
 		void ECSManager::RemoveComponent(EntityHandle& entity)
 		{
+			if (!entity.isAlive)
+				return;
 			auto componentIndex = Util::TypeIdFactory<ComponentHandle<void>>::GetId<C>() + entity.dataIndex * Settings::MAX_COMPONENT_TYPES;
 			if (componentVector[componentIndex] != nullptr)
-			{
-			}
+				this->RemoveComponent(*static_cast<ComponentHandle<C>*>(componentVector[componentIndex]));
+			//Change entity component mask
+			entity.componentMask ^= Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<C>();
 		}
 
 		template <typename C>
 		void ECSManager::RemoveComponent(ComponentHandle<C>& component)
 		{
-			
+			if(component.GetNextRaw() != nullptr)
+				this->RemoveComponent(*static_cast<ComponentHandle<C>*>(component.GetNextRaw()));
+			//Remove component
+			componentAllocator->Deallocate(static_cast<void*>(&component));
+		}
+
+		template <typename ... Cs>
+		bool ECSManager::HasComponents(EntityHandle& entity) const
+		{
+			size_t flags[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>()... };
+			size_t mask = 0;
+			for (auto m : flags)
+				mask |= m;
+			return mask == (entity.componentMask & mask);
+		}
+
+		template <typename ... Cs>
+		std::unique_ptr<std::vector<std::tuple<Cs& ...>>> ECSManager::GetComponentTuples()
+		{
+			auto tuples = std::make_unique<std::vector<std::tuple<Cs& ...>>>();
+			std::size_t componentIndexes[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>()... };
+			//Loop trough component vector
+			for(int i = 0; i < componentVector.size()/Settings::MAX_COMPONENT_TYPES; ++i)
+			{
+				int offset = i * Settings::MAX_COMPONENT_TYPES;
+				bool hasComponents = true;
+				for (auto index : componentIndexes)
+				{
+					if (componentVector[index + offset] == nullptr)
+						hasComponents = false;
+				}
+				if(!hasComponents)
+					continue;
+				//Push components
+				tuples->push_back(std::forward_as_tuple(
+					*(reinterpret_cast<ComponentHandle<Cs>*>(componentVector[Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>() + offset])->GetRaw())...));
+			}
+			return tuples;
+		}
+
+		template <typename C>
+		C* ECSManager::GetComponent(EntityHandle& entity)
+		{
+			auto componentIndex = Util::TypeIdFactory<ComponentHandle<void>>::GetId<C>() + entity.dataIndex * Settings::MAX_COMPONENT_TYPES;
+			if (!componentVector[componentIndex])
+				return nullptr;
+			return reinterpret_cast<ComponentHandle<C>*>(componentVector[componentIndex])->GetRaw();
 		}
 	}
 }

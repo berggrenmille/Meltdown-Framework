@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Meltdown::ECS::EntityHandle& Meltdown::ECS::EntityHandle::operator=(EntityHandle&& other) noexcept
+Meltdown::ECS::EntityHandle& Meltdown::ECS::EntityHandle::operator=(EntityHandle& other) noexcept
 {
 	EntityHandle temp;
 	temp.dataIndex = this->dataIndex;

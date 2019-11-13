@@ -11,9 +11,9 @@ namespace Meltdown
 			size_t dataIndex = -1;
 			int8_t isAlive = 0;
 			int8_t pendingDeath = 0;
-			std::bitset<Settings::MAX_COMPONENT_TYPES> componentMask;
+			size_t componentMask;
 
-			EntityHandle& operator=(EntityHandle&& other) noexcept;
+			EntityHandle& operator=(EntityHandle& other) noexcept;
 		};
 	}
 }

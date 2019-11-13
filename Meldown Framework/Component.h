@@ -10,11 +10,11 @@ namespace Meltdown
 		public:
 			explicit ComponentHandle(T* ptr):componentPtr(ptr){}
 			T* GetRaw() const;
-			T* GetNextRaw() const;
+			T* GetNext() const;
 		private:
 			friend class ECSManager;
 			T* componentPtr = nullptr;
-			T* next = nullptr;
+			ComponentHandle<T>* next = nullptr;
 		};
 
 		template <typename T>
@@ -24,7 +24,7 @@ namespace Meltdown
 		}
 
 		template <typename T>
-		T* ComponentHandle<T>::GetNextRaw() const
+		T* ComponentHandle<T>::GetNext() const
 		{
 			return next;
 		}

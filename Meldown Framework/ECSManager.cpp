@@ -1,6 +1,7 @@
 #include "ECSManager.h"
 #include "IdFactory.hpp"
-
+#include "Engine.h"
+#include <iostream>
 
 Meltdown::ECS::ECSManager::ECSManager(Core::Engine* engine)
 {
@@ -19,7 +20,7 @@ Meltdown::ECS::ECSManager::~ECSManager()
 	delete componentAllocator;
 }
 
-void Meltdown::ECS::ECSManager::AddEntity()
+Meltdown::ECS::EntityHandle& Meltdown::ECS::ECSManager::AddEntity()
 {
 	EntityHandle* newEnt = nullptr;
 	//Check if dead entity can be revived
@@ -29,7 +30,7 @@ void Meltdown::ECS::ECSManager::AddEntity()
 	{
 		//Create new entity
 		newEnt = Memory::AllocateNew<EntityHandle>(*entityAllocator);
-		newEnt->componentMask.reset();
+		newEnt->componentMask = 0;
 		newEnt->index = entityVector.size();
 		entityVector.push_back(newEnt);
 	}
@@ -38,12 +39,13 @@ void Meltdown::ECS::ECSManager::AddEntity()
 	++aliveEntities;
 
 	//Create new storage for components
-	if(newEnt->dataIndex >= componentVector.size() / Settings::MAX_COMPONENT_TYPES - 1)
+	if(newEnt->dataIndex >= componentVector.size() / Settings::MAX_COMPONENT_TYPES)
 	{
 		//Fill entity data space
 		for (int i = 0; i < Settings::MAX_COMPONENT_TYPES; ++i)
 			componentVector.push_back(nullptr);
 	}
+	return *newEnt;
 }
 
 void Meltdown::ECS::ECSManager::RemoveEntity(EntityHandle& entity)
@@ -69,7 +71,7 @@ void Meltdown::ECS::ECSManager::Refresh()
 				//Reset entity
 				entityVector[a]->isAlive = false;
 				entityVector[a]->pendingDeath = false;
-				entityVector[a]->componentMask.reset();
+				entityVector[a]->componentMask = 0;
 				//Deallocate components
 				for(unsigned i = 0; i<Settings::MAX_COMPONENT_TYPES; ++i)
 				{
