@@ -38,7 +38,9 @@ namespace Meltdown
 			/// </summary>
 			template <typename C>
 			void RemoveComponent(EntityHandle& entity);
-
+			template <typename C>
+			void RemoveComponent(ComponentHandle<C>& component);
+			
 			template <typename S, typename ... Args>
 			void AddSystem(Args&& ... args);
 			template <typename S>
@@ -72,6 +74,21 @@ namespace Meltdown
 					next = next->next;
 				next->next = componentHandlePtr;
 			}
+		}
+
+		template <typename C>
+		void ECSManager::RemoveComponent(EntityHandle& entity)
+		{
+			auto componentIndex = Util::TypeIdFactory<ComponentHandle<void>>::GetId<C>() + entity.dataIndex * Settings::MAX_COMPONENT_TYPES;
+			if (componentVector[componentIndex] != nullptr)
+			{
+			}
+		}
+
+		template <typename C>
+		void ECSManager::RemoveComponent(ComponentHandle<C>& component)
+		{
+			
 		}
 	}
 }
