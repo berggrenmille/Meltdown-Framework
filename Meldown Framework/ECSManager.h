@@ -26,7 +26,7 @@ namespace Meltdown
 			/// RemoveEntity disables an entity from the world.
 			/// The entity will still exist in memory, ready to be reborn.
 			/// </summary>
-			/// <param name="entity"></param>
+			/// <param name="entity">The Entity to be removed.</param>
 			void RemoveEntity(EntityHandle& entity);
 			/// <summary>
 			/// AddComponent binds a component to an entity.
