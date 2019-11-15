@@ -95,5 +95,6 @@ void Meltdown::ECS::ECSManager::Refresh()
 		EntityHandle* temp = entityVector[a];
 		entityVector[a] = entityVector[b];
 		entityVector[b] = temp;
+		*entityVector[a] = *entityVector[b];
 	}
 }

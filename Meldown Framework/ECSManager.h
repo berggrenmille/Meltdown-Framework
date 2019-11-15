@@ -6,6 +6,9 @@
 #include "ChunkListAllocator.h"
 #include "IdFactory.hpp"
 #include <memory>
+#include <array>
+#include <iostream>
+
 namespace Meltdown
 {
 	namespace Core
@@ -61,7 +64,8 @@ namespace Meltdown
 			/// </summary>
 			template <typename... Cs>
 			std::unique_ptr<std::vector<std::tuple<Cs& ...>>> GetComponentTuples();
-
+			template <typename... Cs>
+			void ForEach(std::function<void(Cs&...)> function);
 			
 			template <typename S, typename ... Args>
 			void AddSystem(Args&& ... args);
@@ -85,6 +89,7 @@ namespace Meltdown
 		template <typename C, typename ... Args>
 		void ECSManager::AddComponent(EntityHandle& entity, Args&&... args)
 		{
+			entity.componentMask |= Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<C>();
 			C* componentPtr = Memory::AllocateNew<C>(*componentAllocator,args...);
 			auto componentIndex = Util::TypeIdFactory<ComponentHandle<void>>::GetId<C>() + entity.dataIndex * Settings::MAX_COMPONENT_TYPES;
 			ComponentHandle<C>* componentHandlePtr = Memory::AllocateNew<ComponentHandle<C>>(*componentAllocator, componentPtr);
@@ -98,7 +103,6 @@ namespace Meltdown
 			}
 			else
 				componentVector[componentIndex] = static_cast<void*>(componentHandlePtr);
-			entity.componentMask |= Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<C>();
 		}
 
 		template <typename C>
@@ -154,6 +158,22 @@ namespace Meltdown
 					*(reinterpret_cast<ComponentHandle<Cs>*>(componentVector[Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>() + offset])->GetRaw())...));
 			}
 			return tuples;
+		}
+
+		template <typename ... Cs>
+		void ECSManager::ForEach(std::function<void(Cs&...)> function)
+		{
+			size_t componentMaskList[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>() ... };
+			size_t mask = 0;
+			for (size_t flag : componentMaskList)
+				mask |= flag;
+		
+			//Find all entities with a certain set of components and call the function
+			for (auto i = 0; i < aliveEntities; ++i)
+			{
+				if ((entityVector[i]->componentMask & mask) == mask)
+					function((*reinterpret_cast<ComponentHandle<Cs>*>(componentVector[entityVector[i]->dataIndex * Settings::MAX_COMPONENT_TYPES + Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>()])->GetRaw())...);
+			}
 		}
 
 		template <typename C>

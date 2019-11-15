@@ -11,7 +11,7 @@ namespace Meltdown
 		constexpr  size_t DYNAMIC_MEMORY = GB(0.5);
 
 		constexpr size_t MAX_COMPONENT_TYPES = sizeof(size_t) * 8;
-		constexpr size_t MAX_ENTITIES = 1 << 10;
+		constexpr size_t MAX_ENTITIES = 2e+6;//1 << 10;
 		constexpr size_t MAX_SYSTEMS = 64;
 	}
 }
