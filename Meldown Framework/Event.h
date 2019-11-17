@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <cstdint>
+
 namespace Meltdown
 {
 	namespace Event
@@ -6,7 +8,7 @@ namespace Meltdown
 		class BaseEvent
 		{
 		public:
-			size_t id = -1;
+			uint32_t id = -1;
 		};
 	}
 }

@@ -8,7 +8,7 @@
 #include <memory>
 #include <array>
 #include <iostream>
-
+#include "Engine.h"
 namespace Meltdown
 {
 	namespace Core
@@ -63,7 +63,7 @@ namespace Meltdown
 			/// TODO: Implement an entity reference with every tuple
 			/// </summary>
 			template <typename... Cs>
-			std::unique_ptr<std::vector<std::tuple<Cs& ...>>> GetComponentTuples();
+			std::vector<std::tuple<Cs& ...>> GetComponentTuples();
 			template <typename... Cs>
 			void ForEach(std::function<void(Cs&...)> function);
 			
@@ -129,33 +129,44 @@ namespace Meltdown
 		template <typename ... Cs>
 		bool ECSManager::HasComponents(EntityHandle& entity) const
 		{
-			size_t flags[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>()... };
-			size_t mask = 0;
+			uint32_t flags[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>()... };
+			uint32_t mask = 0;
 			for (auto m : flags)
 				mask |= m;
 			return mask == (entity.componentMask & mask);
 		}
 
 		template <typename ... Cs>
-		std::unique_ptr<std::vector<std::tuple<Cs& ...>>> ECSManager::GetComponentTuples()
+		std::vector<std::tuple<Cs& ...>> ECSManager::GetComponentTuples()
 		{
-			auto tuples = std::make_unique<std::vector<std::tuple<Cs& ...>>>();
-			std::size_t componentIndexes[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>()... };
+			std::vector<std::tuple<Cs& ...>> tuples;
+			uint32_t componentIndexes[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>()... };
+		/*	uint32_t componentMasks[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>()... };
+			uint32_t mask = 0;
+
+			for (uint32_t& t : componentMasks)
+				mask |= t;
 			//Loop trough component vector
-			for(int i = 0; i < componentVector.size()/Settings::MAX_COMPONENT_TYPES; ++i)
+			for(int i = 0; i< aliveEntities; ++i)
 			{
-				int offset = i * Settings::MAX_COMPONENT_TYPES;
+				if ((entityVector[i]->componentMask & mask) == mask)
+					tuples.push_back(std::forward_as_tuple(*(reinterpret_cast<ComponentHandle<Cs>*>(componentVector[Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>() + entityVector[i]->dataIndex * Settings::MAX_COMPONENT_TYPES])->GetRaw())...));
+
+			}*/
+			for(auto i = 0; i < componentVector.size()/Settings::MAX_COMPONENT_TYPES; ++i)
+			{
 				bool hasComponents = true;
 				for (auto index : componentIndexes)
 				{
-					if (componentVector[index + offset] == nullptr)
+					if (componentVector[index + i * Settings::MAX_COMPONENT_TYPES] == nullptr)
 						hasComponents = false;
 				}
 				if(!hasComponents)
 					continue;
 				//Push components
-				tuples->push_back(std::forward_as_tuple(
-					*(reinterpret_cast<ComponentHandle<Cs>*>(componentVector[Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>() + offset])->GetRaw())...));
+				tuples.push_back(std::forward_as_tuple(
+					*(reinterpret_cast<ComponentHandle<Cs>*>
+					(componentVector[Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>() + i * Settings::MAX_COMPONENT_TYPES])->GetRaw())...));
 			}
 			return tuples;
 		}
@@ -163,16 +174,17 @@ namespace Meltdown
 		template <typename ... Cs>
 		void ECSManager::ForEach(std::function<void(Cs&...)> function)
 		{
-			size_t componentMaskList[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>() ... };
-			size_t mask = 0;
-			for (size_t flag : componentMaskList)
+			uint32_t componentMaskList[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>() ... };
+			uint32_t mask = 0;
+			for (uint32_t flag : componentMaskList)
 				mask |= flag;
 		
 			//Find all entities with a certain set of components and call the function
 			for (auto i = 0; i < aliveEntities; ++i)
 			{
 				if ((entityVector[i]->componentMask & mask) == mask)
-					function((*reinterpret_cast<ComponentHandle<Cs>*>(componentVector[entityVector[i]->dataIndex * Settings::MAX_COMPONENT_TYPES + Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>()])->GetRaw())...);
+					function((*reinterpret_cast<ComponentHandle<Cs>*>
+					(componentVector[entityVector[i]->dataIndex * Settings::MAX_COMPONENT_TYPES + Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>()])->GetRaw())...);
 			}
 		}
 

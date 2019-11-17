@@ -21,24 +21,26 @@ int main()
 {
 	auto* engine = new Meltdown::Core::Engine();
 	auto ecs = engine->GetECSManager();
-	for (int i = 0; i < 150; ++i)
+	for (int i = 0; i < 5000000; ++i)
 	{
 		auto& ent = ecs.AddEntity();
-		ecs.AddComponent<Position>(ent, i, 2 * i);
-		ecs.AddComponent<Rotation>(ent, 14, 2424);
+		ecs.AddComponent<Position>(ent, 1, 2);
+		//ecs.AddComponent<Rotation>(ent, 3, 4);
 		//std::cout << ecs.GetComponent<Position>(ent)->x << " : " << ecs.GetComponent<Position>(ent)->y << "\n";
 
 	}
 	system("pause");
-	std::function<void(Position&, Rotation&)> f = [](Position& pos, Rotation& rot) { };
+	std::function<void(Position&)> f = [](Position& pos) { pos.x = 5; };
 	for (int i = 0; i < 5; ++i)
 	{ 
 		const auto start = std::chrono::high_resolution_clock::now();
-		ecs.ForEach<Position, Rotation>(f);
-		//auto test = *ecs.GetComponentTuples<Position, Rotation>();
+		ecs.ForEach<Position>(f);
+		ecs.ForEach<Position>(f);
+		//auto test1 = ecs.GetComponentTuples<Position>();
+		//auto test2 = ecs.GetComponentTuples<Position>();
 		const auto end = std::chrono::high_resolution_clock::now();
 		const auto diff = end - start;
-		std::cout << std::chrono::duration <double, std::milli>(diff).count() << " ms" << std::endl;
+		std::cout << std::chrono::duration_cast<std::chrono::duration<double>>(diff).count() << " s" << std::endl;
 
 		//std::cout << std::get<Position&>(test[4]).x << " : " << std::get<Rotation&>(test[4]).y << std::endl;
 	}

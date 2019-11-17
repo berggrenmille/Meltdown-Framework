@@ -13,12 +13,12 @@ Meltdown::Memory::ProxyAllocator::~ProxyAllocator()
 	//Nothing here
 }
 
-void* Meltdown::Memory::ProxyAllocator::Allocate(size_t size, U8 alignment)
+void* Meltdown::Memory::ProxyAllocator::Allocate(uint32_t size, U8 alignment)
 {
 	assert(size != 0);
 	numAllocations++;
 	//used memory before allocation
-	size_t previousMemory = m_targetAllocator.GetUsedMemory();
+	uint32_t previousMemory = m_targetAllocator.GetUsedMemory();
 
 	void* ptr = m_targetAllocator.Allocate(size, alignment);
 
@@ -39,7 +39,7 @@ void Meltdown::Memory::ProxyAllocator::Deallocate(void* ptr)
 {
 	numAllocations--;
 	//used memory before deallocation
-	size_t previousMemory = m_targetAllocator.GetUsedMemory();
+	uint32_t previousMemory = m_targetAllocator.GetUsedMemory();
 
 	m_targetAllocator.Deallocate(ptr);
 

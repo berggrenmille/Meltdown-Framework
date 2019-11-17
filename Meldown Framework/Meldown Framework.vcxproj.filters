@@ -57,9 +57,6 @@
     <ClInclude Include="ChunkListAllocator.h">
       <Filter>Header Files\Memory</Filter>
     </ClInclude>
-    <ClInclude Include="CustomVector.h">
-      <Filter>Header Files\Memory</Filter>
-    </ClInclude>
     <ClInclude Include="LinearAllocator.h">
       <Filter>Header Files\Memory</Filter>
     </ClInclude>
