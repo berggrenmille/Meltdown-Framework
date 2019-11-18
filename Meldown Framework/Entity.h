@@ -7,11 +7,11 @@ namespace Meltdown
 	{
 		struct EntityHandle
 		{
-			uint32_t index = -1;
-			uint32_t dataIndex = -1;
+			size_t index = -1;
+			size_t dataIndex = -1;
 			int8_t isAlive = 0;
 			int8_t pendingDeath = 0;
-			uint32_t componentMask = 0;
+			size_t componentMask = 0;
 
 			EntityHandle& operator=(EntityHandle& other) noexcept;
 		};

@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{203D1DAB-87B1-41C7-961D-C524AADF8744}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>MeldownFramework</RootNamespace>
+    <RootNamespace>Meltdown</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>Meltdown Framework</ProjectName>
   </PropertyGroup>

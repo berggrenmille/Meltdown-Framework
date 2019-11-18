@@ -2,7 +2,7 @@
 #include "BaseAllocator.h"
 #include "MemoryHelper.hpp"
 
-Meltdown::Memory::LinearAllocator::LinearAllocator(uint32_t dedicatedMemory, void* start)
+Meltdown::Memory::LinearAllocator::LinearAllocator(size_t dedicatedMemory, void* start)
 	: BaseAllocator(dedicatedMemory, start), currentPtr(start)
 {
 	assert((dedicatedMemory > 0));
@@ -16,7 +16,7 @@ Meltdown::Memory::LinearAllocator::~LinearAllocator()
 /*
  * Allocate works as simple as moving the currentPtr forward to the first free adress
  */
-void* Meltdown::Memory::LinearAllocator::Allocate(uint32_t size, U8 alignment)
+void* Meltdown::Memory::LinearAllocator::Allocate(size_t size, U8 alignment)
 {
 	assert(size != 0);
 	const U8 adjustment = AlignForwardAdjustment(currentPtr, alignment);

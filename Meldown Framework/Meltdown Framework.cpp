@@ -21,7 +21,7 @@ int main()
 {
 	auto* engine = new Meltdown::Core::Engine();
 	auto ecs = engine->GetECSManager();
-	for (int i = 0; i < 5000000; ++i)
+	for (int i = 0; i < 200000; ++i)
 	{
 		auto& ent = ecs.AddEntity();
 		ecs.AddComponent<Position>(ent, 1, 2);
@@ -40,7 +40,7 @@ int main()
 		//auto test2 = ecs.GetComponentTuples<Position>();
 		const auto end = std::chrono::high_resolution_clock::now();
 		const auto diff = end - start;
-		std::cout << std::chrono::duration_cast<std::chrono::duration<double>>(diff).count() << " s" << std::endl;
+		std::cout << std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(diff).count() << " ms" << std::endl;
 
 		//std::cout << std::get<Position&>(test[4]).x << " : " << std::get<Rotation&>(test[4]).y << std::endl;
 	}

@@ -23,7 +23,7 @@ namespace Meltdown
 			void SubscribeToEvent(std::function<void(BaseEvent&)> callback);
 
 		private:
-			typedef std::unordered_multimap<uint32_t, std::function<void(BaseEvent&)>> CallbackMultiMap;
+			typedef std::unordered_multimap<size_t, std::function<void(BaseEvent&)>> CallbackMultiMap;
 			CallbackMultiMap callbacks;
 			std::queue<BaseEvent> eventQueue;
 		};

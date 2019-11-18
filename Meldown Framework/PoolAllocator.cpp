@@ -9,11 +9,11 @@ Meltdown::Memory::PoolAllocator::PoolAllocator(size_t objectSize, U8 objectAlign
 
 	U8 adjustment = AlignForwardAdjustment(start, objectAlignment);
 	freeSpaceList = static_cast<void**>(Push(start, adjustment));
-	uint32_t numObjects = (dedicatedMemory - adjustment) / objectSize;
+	size_t numObjects = (dedicatedMemory - adjustment) / objectSize;
 	void** freeListPtr = freeSpaceList;
 
 	//Init list
-	for (uint32_t i = 0; i < numObjects - 1; ++i)
+	for (size_t i = 0; i < numObjects - 1; ++i)
 	{
 		*freeListPtr = Push(freeListPtr, objectSize);
 		freeListPtr = static_cast<void**>(*freeListPtr);

@@ -5,7 +5,9 @@
 
 Meltdown::Core::Engine::Engine()
 {
-	globalAllocator  = new Memory::ChunkListAllocator(Settings::GLOBAL_MEMORY, malloc(Settings::GLOBAL_MEMORY));
+	void* globalMemory = malloc(Settings::GLOBAL_MEMORY);
+	assert(globalMemory && "Failed to assign memory to application!");
+	globalAllocator  = new Memory::ChunkListAllocator(Settings::GLOBAL_MEMORY, globalMemory);
 	proxyAllocator = new Memory::ProxyAllocator(*globalAllocator);
 
 	void* dynamicMemory = proxyAllocator->Allocate(Settings::DYNAMIC_MEMORY, Memory::NORMAL_ALIGNMENT);
@@ -16,9 +18,11 @@ Meltdown::Core::Engine::Engine()
 
 Meltdown::Core::Engine::~Engine()
 {
+	void* mem = globalAllocator->GetStart();
 	delete proxyAllocator;
 	delete dynamicAllocator;
 	delete globalAllocator;
+	free(mem);
 }
 
 Meltdown::ECS::ECSManager& Meltdown::Core::Engine::GetECSManager() const

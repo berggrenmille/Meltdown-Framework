@@ -1,7 +1,7 @@
 ﻿#include "ChunkListAllocator.h"
 #include <cassert>
 
-Meltdown::Memory::ChunkListAllocator::ChunkListAllocator(uint32_t dedicatedMemory, void* start)
+Meltdown::Memory::ChunkListAllocator::ChunkListAllocator(size_t dedicatedMemory, void* start)
 	: BaseAllocator(dedicatedMemory, start), chunkPtr(static_cast<Chunk*>(start))
 {
 	assert(dedicatedMemory > sizeof(Chunk));
@@ -15,7 +15,7 @@ Meltdown::Memory::ChunkListAllocator::~ChunkListAllocator()
 	chunkPtr = nullptr;
 }
 
-void* Meltdown::Memory::ChunkListAllocator::Allocate(uint32_t size, U8 alignment)
+void* Meltdown::Memory::ChunkListAllocator::Allocate(size_t size, U8 alignment)
 {
 	assert(size != 0 && alignment != 0);
 	Chunk * previousChunk = nullptr;
@@ -24,7 +24,7 @@ void* Meltdown::Memory::ChunkListAllocator::Allocate(uint32_t size, U8 alignment
 	{
 		//Calculate adjustment needed to keep object correctly aligned 
 		const U8 adjustment = AlignForwardAdjustmentWithHeader(currentChunk, alignment, sizeof(Header));
-		uint32_t totalSize = size + adjustment;
+		size_t totalSize = size + adjustment;
 
 		//If allocation doesn't fit in this FreeBlock, try the next 
 		if (currentChunk->size < totalSize)
@@ -80,7 +80,7 @@ void Meltdown::Memory::ChunkListAllocator::Deallocate(void* ptr)
 	assert(ptr != nullptr);
 	Header * header = static_cast<Header*>(Pull(ptr, sizeof(Header)));
 	UPtr	chunkStart = reinterpret_cast<UPtr>(ptr) - header->adjustment;
-	uint32_t	chunkSize = header->size;
+	size_t	chunkSize = header->size;
 	UPtr	chunkEnd = chunkStart + chunkSize;
 	Chunk * previousChunk = nullptr;
 	Chunk * currentChunk = chunkPtr;

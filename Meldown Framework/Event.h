@@ -8,7 +8,7 @@ namespace Meltdown
 		class BaseEvent
 		{
 		public:
-			uint32_t id = -1;
+			size_t id = -1;
 		};
 	}
 }

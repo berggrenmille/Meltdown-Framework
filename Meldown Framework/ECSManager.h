@@ -129,8 +129,8 @@ namespace Meltdown
 		template <typename ... Cs>
 		bool ECSManager::HasComponents(EntityHandle& entity) const
 		{
-			uint32_t flags[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>()... };
-			uint32_t mask = 0;
+			size_t flags[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>()... };
+			size_t mask = 0;
 			for (auto m : flags)
 				mask |= m;
 			return mask == (entity.componentMask & mask);
@@ -140,11 +140,11 @@ namespace Meltdown
 		std::vector<std::tuple<Cs& ...>> ECSManager::GetComponentTuples()
 		{
 			std::vector<std::tuple<Cs& ...>> tuples;
-			uint32_t componentIndexes[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>()... };
-		/*	uint32_t componentMasks[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>()... };
-			uint32_t mask = 0;
+			size_t componentIndexes[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetId<Cs>()... };
+		/*	size_t componentMasks[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>()... };
+			size_t mask = 0;
 
-			for (uint32_t& t : componentMasks)
+			for (size_t& t : componentMasks)
 				mask |= t;
 			//Loop trough component vector
 			for(int i = 0; i< aliveEntities; ++i)
@@ -174,13 +174,13 @@ namespace Meltdown
 		template <typename ... Cs>
 		void ECSManager::ForEach(std::function<void(Cs&...)> function)
 		{
-			uint32_t componentMaskList[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>() ... };
-			uint32_t mask = 0;
-			for (uint32_t flag : componentMaskList)
+			size_t componentMaskList[] = { Util::TypeIdFactory<ComponentHandle<void>>::GetFlag<Cs>() ... };
+			size_t mask = 0;
+			for (size_t flag : componentMaskList)
 				mask |= flag;
 		
 			//Find all entities with a certain set of components and call the function
-			for (auto i = 0; i < aliveEntities; ++i)
+			for (unsigned i = 0; i < aliveEntities; ++i)
 			{
 				if ((entityVector[i]->componentMask & mask) == mask)
 					function((*reinterpret_cast<ComponentHandle<Cs>*>
