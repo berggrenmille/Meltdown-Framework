@@ -37,11 +37,11 @@
     <Filter Include="Source Files\ECS">
       <UniqueIdentifier>{6972c132-455d-4eee-b850-8496be202ab5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{a33bb983-87a1-48e9-9d52-c12c376cc64c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IdFactory.hpp">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
@@ -87,6 +87,9 @@
     <ClInclude Include="ECSManager.h">
       <Filter>Header Files\ECS</Filter>
     </ClInclude>
+    <ClInclude Include="Framework.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Meltdown Framework.cpp">
@@ -104,9 +107,6 @@
     <ClCompile Include="ChunkListAllocator.cpp">
       <Filter>Source Files\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ProxyAllocator.cpp">
       <Filter>Source Files\Memory</Filter>
     </ClCompile>
@@ -115,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="ECSManager.cpp">
       <Filter>Source Files\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -15,7 +15,7 @@ namespace Meltdown
 		{
 
 		public:
-			explicit EventManager(Core::Engine& engine) : BaseManager(engine) {};
+			explicit EventManager(Core::Framework& framework) : BaseManager(framework) {};
 			void FlushEvents();
 			template<typename T>
 			void PushEvent(BaseEvent& newEvent);

@@ -8,19 +8,19 @@
 #include <memory>
 #include <array>
 #include <iostream>
-#include "Engine.h"
+#include "Framework.h"
 namespace Meltdown
 {
 	namespace Core
 	{
-		class Engine;
+		class Framework;
 	}
 	namespace ECS
 	{
 		class ECSManager
 		{
 		public:
-			explicit ECSManager(Core::Engine* engine);
+			explicit ECSManager(Core::Framework* framework);
 			~ECSManager();
 
 			/// <summary>
@@ -73,6 +73,7 @@ namespace Meltdown
 			void RemoveSystem();
 
 			void Refresh();
+			void Update();
 			void Quit();
 		private:
 			std::vector<EntityHandle*>  entityVector;
@@ -83,7 +84,7 @@ namespace Meltdown
 
 			unsigned aliveEntities = 0;
 
-			Core::Engine* engine;
+			Core::Framework* framework;
 		};
 
 		template <typename C, typename ... Args>

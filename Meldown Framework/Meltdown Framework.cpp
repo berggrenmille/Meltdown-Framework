@@ -2,7 +2,7 @@
 //
 
 #include <iostream>
-#include "Engine.h"
+#include "Framework.h"
 #include "ECSManager.h"
 #include "chrono"
 
@@ -19,9 +19,9 @@ struct Rotation
 
 int main()
 {
-	auto* engine = new Meltdown::Core::Engine();
-	auto ecs = engine->GetECSManager();
-	for (int i = 0; i < 200000; ++i)
+	auto* framework = new Meltdown::Core::Framework();
+	auto ecs = framework->GetECSManager();
+	for (int i = 0; i < 2000; ++i)
 	{
 		auto& ent = ecs.AddEntity();
 		ecs.AddComponent<Position>(ent, 1, 2);
@@ -46,6 +46,6 @@ int main()
 	}
 	system("pause");
 
-	delete engine;
+	delete framework;
 
 }

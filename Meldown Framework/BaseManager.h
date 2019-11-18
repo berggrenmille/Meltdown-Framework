@@ -1,22 +1,22 @@
 #pragma once
-#include "Engine.h"
+#include "Framework.h"
 
 namespace Meltdown
 {
 	namespace Core
 	{
-		class Engine; //Forward decl.
+		class Framework; //Forward decl.
 	}
 	/// <summary>
-	/// BaseManager is the Base Class for all Managers, it grants access to the Meltdown::Core::Engine class.
+	/// BaseManager is the Base Class for all Managers, it grants access to the Meltdown::Core::Framework class.
 	/// </summary>
 	class BaseManager
 	{
 	public:
-		explicit BaseManager(Core::Engine& _engine)
-			: engine(_engine) {}
+		explicit BaseManager(Core::Framework& _framework)
+			: framework(_framework) {}
 
 	protected:
-		Core::Engine const& engine;
+		Core::Framework const& framework;
 	};
 }

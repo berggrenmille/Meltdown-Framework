@@ -1,16 +1,16 @@
 #include "ECSManager.h"
 #include "IdFactory.hpp"
-#include "Engine.h"
+#include "Framework.h"
 #include <iostream>
 
-Meltdown::ECS::ECSManager::ECSManager(Core::Engine* engine)
+Meltdown::ECS::ECSManager::ECSManager(Core::Framework* framework)
 {
-	this->engine = engine;
+	this->framework = framework;
 
-	void* entityStartPtr = engine->GetGlobalAllocator().Allocate(Settings::MAX_ENTITIES * sizeof(EntityHandle), alignof(EntityHandle));
+	void* entityStartPtr = framework->GetGlobalAllocator().Allocate(Settings::MAX_ENTITIES * sizeof(EntityHandle), alignof(EntityHandle));
 	this->entityAllocator = new Memory::PoolAllocator(sizeof(EntityHandle), alignof(EntityHandle), Settings::MAX_ENTITIES * sizeof(EntityHandle), entityStartPtr);
 
-	void* componentStartPtr = engine->GetGlobalAllocator().Allocate(Settings::MAX_ENTITIES * sizeof(EntityHandle), Memory::NORMAL_ALIGNMENT);
+	void* componentStartPtr = framework->GetGlobalAllocator().Allocate(Settings::MAX_ENTITIES * sizeof(EntityHandle), Memory::NORMAL_ALIGNMENT);
 	this->componentAllocator = new Memory::ChunkListAllocator(Settings::MAX_ENTITIES * sizeof(EntityHandle), componentStartPtr);
 }
 
@@ -97,4 +97,9 @@ void Meltdown::ECS::ECSManager::Refresh()
 		entityVector[b] = temp;
 		*entityVector[a] = *entityVector[b];
 	}
+}
+
+void Meltdown::ECS::ECSManager::Update()
+{
+	
 }

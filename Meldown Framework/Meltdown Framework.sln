@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Meltdown Framework", "Meldown Framework.vcxproj", "{203D1DAB-87B1-41C7-961D-C524AADF8744}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Meltdown Game 1", "..\Meltdown Game 1\Meltdown Game 1.vcxproj", "{1244F303-18ED-4EFE-9502-9FBE951867C2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{203D1DAB-87B1-41C7-961D-C524AADF8744} = {203D1DAB-87B1-41C7-961D-C524AADF8744}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +26,14 @@ Global
 		{203D1DAB-87B1-41C7-961D-C524AADF8744}.Release|x64.Build.0 = Release|x64
 		{203D1DAB-87B1-41C7-961D-C524AADF8744}.Release|x86.ActiveCfg = Release|Win32
 		{203D1DAB-87B1-41C7-961D-C524AADF8744}.Release|x86.Build.0 = Release|Win32
+		{1244F303-18ED-4EFE-9502-9FBE951867C2}.Debug|x64.ActiveCfg = Debug|x64
+		{1244F303-18ED-4EFE-9502-9FBE951867C2}.Debug|x64.Build.0 = Debug|x64
+		{1244F303-18ED-4EFE-9502-9FBE951867C2}.Debug|x86.ActiveCfg = Debug|Win32
+		{1244F303-18ED-4EFE-9502-9FBE951867C2}.Debug|x86.Build.0 = Debug|Win32
+		{1244F303-18ED-4EFE-9502-9FBE951867C2}.Release|x64.ActiveCfg = Release|x64
+		{1244F303-18ED-4EFE-9502-9FBE951867C2}.Release|x64.Build.0 = Release|x64
+		{1244F303-18ED-4EFE-9502-9FBE951867C2}.Release|x86.ActiveCfg = Release|Win32
+		{1244F303-18ED-4EFE-9502-9FBE951867C2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
